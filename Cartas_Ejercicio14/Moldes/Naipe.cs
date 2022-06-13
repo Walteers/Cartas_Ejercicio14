@@ -28,9 +28,4 @@ namespace Cartas_Ejercicio14.Moldes
         }
 
     }
-
-
-    
-
-
 }

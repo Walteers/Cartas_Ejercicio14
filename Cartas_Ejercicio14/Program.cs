@@ -35,7 +35,7 @@ do
         case "4":
             Console.WriteLine("¿Cuantas cartas quiere ver?");
             string opcion = Console.ReadLine();
-            if (Verificar.VerificarNumero(opcion, baraja.CartasDisponiblesEnBaraja(baraja.BarajaDeCartas))) baraja.DarCartas(int.Parse(opcion));
+            if (Verificar.VerificarNumero(opcion, baraja.BarajaDeCartas.Count)) baraja.DarCartas(int.Parse(opcion));
             Display.MostrarContinuar();
             Console.Clear();
             break;

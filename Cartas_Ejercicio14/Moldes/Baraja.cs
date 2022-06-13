@@ -10,32 +10,30 @@ namespace Cartas_Ejercicio14.Moldes
     {
         private int[] Numeros = new int[] { 1, 2, 3, 4, 5, 6, 7, 10, 11, 12 };
         private string[] Palos = new string[] { "Espada", "Oro", "Basto", "Copa" };
-        private Naipe[] _barajaDeCartas = new Naipe[40];
-        private Naipe[] _barajasDelMonton = new Naipe[40];
+        private List<Naipe> _barajaDeCartas = new List<Naipe>();
+        private List<Naipe> _barajasDelMonton = new List<Naipe>();
 
-        public Naipe[] BarajaDeCartas
+        public List<Naipe> BarajaDeCartas
         {
             get { return _barajaDeCartas; }
             set { _barajaDeCartas = BarajaDeCartas; }
         }
 
-        public Naipe[] BarajaDelMonton
+        public List<Naipe> BarajasDelMonton
         {
-            get { return _barajaDeCartas; }
-            set { _barajaDeCartas = BarajaDeCartas; }
+            get { return _barajasDelMonton; }
+            set { _barajasDelMonton = BarajasDelMonton; }
         }
 
 
         public Baraja()
         {
-            int pos = 0;
             for (int i = 0; i < Palos.Length; i++)
             {
                 for (int j = 0; j < Numeros.Length; j++)
                 {
                     Naipe Carta = new Naipe(Palos[i], Numeros[j]);
-                    BarajaDeCartas[pos] = Carta;
-                    pos++;
+                    BarajaDeCartas.Add(Carta);
                 }
             }
         }
@@ -43,35 +41,34 @@ namespace Cartas_Ejercicio14.Moldes
 
         public void Barajar()
         {
-            if (CartasDisponiblesEnBaraja(BarajaDeCartas) > 1)
+            if (BarajaDeCartas.Count > 1)
             {
                 Random numRandom = new Random();
                 int numeroRandom = numRandom.Next(500, 1500); // Se elije aleatoriamente la cantidad de veces que se abaraja o se cambia una carta de posicion
                 int indice;
                 Naipe AuxNaipe;
+                // Elejimos una carta al azar, la copiamos a una variable auxiliar, eliminamos la posicion e insertamos aleatoriamente la varible auxiliar en otra posición
                 for (int i = 0; i < numeroRandom; i++)
                 {
-                    indice = numRandom.Next(0, CartasDisponiblesEnBaraja(BarajaDeCartas)); // Elejimos al azar una carta de la baraja que no sea la ultima, y la intercambiamos con la ultima carta de la baraja
-                    AuxNaipe = BarajaDeCartas[indice]; // Copiamos la carta elejida
-                    BarajaDeCartas[indice] = BarajaDeCartas[CartasDisponiblesEnBaraja(BarajaDeCartas) - 1]; // Pasamos la ultima carta a la posicion elejida aleatoreamente
-                    BarajaDeCartas[CartasDisponiblesEnBaraja(BarajaDeCartas) - 1] = AuxNaipe; // Pegamos a la ultima posicion la carta elejida aleatoreamente
+                    indice = numRandom.Next(0, BarajaDeCartas.Count);
+                    AuxNaipe = BarajaDeCartas[indice];
+                    BarajaDeCartas.RemoveAt(indice);
+                    BarajaDeCartas.Insert(numRandom.Next(0, BarajaDeCartas.Count), AuxNaipe);
                 }
                 Console.WriteLine("Baraja mezclada.");
             }
-            if (CartasDisponiblesEnBaraja(BarajaDeCartas) == 1) Console.WriteLine("Solo hay una sola carta en la baraja.");
-            if (CartasDisponiblesEnBaraja(BarajaDeCartas) < 1) Console.WriteLine("No quedan cartas en la baraja.");
+            if (BarajaDeCartas.Count == 1) Console.WriteLine("Solo hay una sola carta en la baraja.");
+            if (BarajaDeCartas.Count < 1) Console.WriteLine("No quedan cartas en la baraja.");
         }
 
 
         public void SiguienteCarta()
         {
-            if (CartasDisponiblesEnBaraja(BarajaDeCartas) != 0)
+            if (BarajaDeCartas.Count != 0)
             {
-                Console.WriteLine($"{BarajaDeCartas[CartasDisponiblesEnBaraja(BarajaDeCartas) - 1].Numero} de {BarajaDeCartas[CartasDisponiblesEnBaraja(BarajaDeCartas) - 1].Palo} "); // Mostramos por consola la ultima carta
-
-                _barajasDelMonton[CartasDisponiblesEnBaraja(_barajasDelMonton)] = BarajaDeCartas[CartasDisponiblesEnBaraja(BarajaDeCartas) - 1]; // Guardamos la última carta a las cartas 'BarajasDelMonton'
-
-                BarajaDeCartas[CartasDisponiblesEnBaraja(BarajaDeCartas) - 1] = null; // Elimiamos la ultima carta
+                Console.WriteLine($"{BarajaDeCartas[BarajaDeCartas.Count - 1].Numero} de {BarajaDeCartas[BarajaDeCartas.Count - 1].Palo} "); // Mostramos por consola la ultima carta
+                BarajasDelMonton.Add(BarajaDeCartas[BarajaDeCartas.Count - 1]); // Guardamos la carta a las 'BarajasDelMonton'
+                BarajaDeCartas.RemoveAt(BarajaDeCartas.Count - 1); // Elimiamos la ultima carta
             }
             else Console.WriteLine("Ya no quedan mas cartas en la baraja.");
         }
@@ -79,13 +76,13 @@ namespace Cartas_Ejercicio14.Moldes
 
         public void CartasDisponibles()
         {
-            Console.WriteLine($"Quedan para repartir {CartasDisponiblesEnBaraja(BarajaDeCartas)} cartas en la baraja.");
+            Console.WriteLine($"Quedan para repartir {BarajaDeCartas.Count} cartas en la baraja.");
         }
 
 
         public void DarCartas(int cantidad)
         {
-            if (cantidad > CartasDisponiblesEnBaraja(BarajaDeCartas)) Console.WriteLine("No hay suficientes cartas para repartir.");
+            if (cantidad > BarajaDeCartas.Count) Console.WriteLine("No hay suficientes cartas para repartir.");
             else
             {
                 Console.WriteLine("Cartas repartidas: ");
@@ -96,35 +93,21 @@ namespace Cartas_Ejercicio14.Moldes
 
         public void CartasMonton()
         {
-            if (CartasDisponiblesEnBaraja(_barajasDelMonton) == 0) Console.WriteLine("No hay cartas en el montón. No a salido ninguna carta de la baraja.");
+            if (BarajasDelMonton.Count == 0) Console.WriteLine("No hay cartas en el montón. No a salido ninguna carta de la baraja.");
             else
             {
                 Console.WriteLine("Cartas del montón");
-                for (int i = 0; i < CartasDisponiblesEnBaraja(_barajasDelMonton); i++) Console.WriteLine($"{_barajasDelMonton[i].Numero} de {_barajasDelMonton[i].Palo}");
+                foreach (Naipe carta in BarajasDelMonton) Console.WriteLine($"{carta.Numero} de {carta.Palo}");
             }
         }
 
 
         public void MostrarBaraja()
         {
-            if (CartasDisponiblesEnBaraja(BarajaDeCartas) == 0) Console.WriteLine("No quedan cartas en la baraja.");
-            else
-            {
-                Console.WriteLine("Cartas de la baraja:");
-                for (int i = 0; i < CartasDisponiblesEnBaraja(BarajaDeCartas); i++) Console.WriteLine($"{BarajaDeCartas[i].Numero} de {BarajaDeCartas[i].Palo}");
-            }
+            Console.WriteLine("Cartas de la baraja");
+            foreach (Naipe naipe in BarajaDeCartas) Console.WriteLine($"{naipe.Numero} de {naipe.Palo}");
         }
 
-
-        public int CartasDisponiblesEnBaraja(Naipe[] BarajaDeCartasVerificar)
-        {
-            int cont = 0;
-            for (int i = 0; i < BarajaDeCartasVerificar.Length; i++)
-            {
-                if (BarajaDeCartasVerificar[i] != null) cont++;
-                else break;
-            }
-            return cont;
-        }
     }
+
 }
