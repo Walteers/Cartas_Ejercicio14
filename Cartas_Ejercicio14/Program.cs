@@ -1,4 +1,4 @@
-﻿using Cartas_Ejercicio14.Moldes;
+﻿using CartasEjercicio14.Moldes;
 
 Baraja baraja = new Baraja();
 bool continuar = true;
@@ -18,7 +18,7 @@ do
     switch (respuesta)
     {
         case "1":
-            baraja.Barajar();
+            baraja.Barajar(baraja.BarajaDeCartas);
             Display.MostrarContinuar();
             break;
         case "2":
@@ -28,19 +28,19 @@ do
             Console.Clear();
             break;
         case "3":
-            baraja.CartasDisponibles();
+            baraja.CartasDisponibles(baraja.BarajaDeCartas);
             Display.MostrarContinuar();
             Console.Clear();
             break;
         case "4":
             Console.WriteLine("¿Cuantas cartas quiere ver?");
             string opcion = Console.ReadLine();
-            if (Verificar.VerificarNumero(opcion, baraja.CartasDisponiblesEnBaraja(baraja.BarajaDeCartas))) baraja.DarCartas(int.Parse(opcion));
+            if (Verificar.VerificarNumero(opcion, baraja.BarajaDeCartas.Count)) baraja.DarCartas(int.Parse(opcion));
             Display.MostrarContinuar();
             Console.Clear();
             break;
         case "5":
-            baraja.CartasMonton();
+            baraja.CartasDelMonton.CartasMonton();
             Display.MostrarContinuar();
             Console.Clear();
             break;

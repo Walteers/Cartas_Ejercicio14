@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cartas_Ejercicio14.Moldes
+namespace CartasEjercicio14.Moldes
 {
     internal class Verificar
     {
@@ -15,17 +15,17 @@ namespace Cartas_Ejercicio14.Moldes
             {
                 if (cantCartas == 0)
                 {
-                    Console.WriteLine("!!!Ingreso CERO cartas para ver¡¡¡¿?");
+                    Console.WriteLine("!!!Ingresó CERO cartas para ver¡¡¡¿?");
                     return false;
                 }
                 if (cantCartas < 0)
                 {
-                    Console.WriteLine("!Ingreso un número negativo no válido¡");
+                    Console.WriteLine("!Ingresó un número negativo no válido¡");
                     return false;
                 }
                 if (cantCartas > max)
                 {
-                    Console.WriteLine($"No hay suficientes cartas a repartir. Quedan {max} cartas en el mazo.");
+                    Console.WriteLine($"No hay suficientes cartas a repartir.");
                     return false;
                 }
                 return true;

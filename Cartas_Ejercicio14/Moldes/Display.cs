@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cartas_Ejercicio14.Moldes
+namespace CartasEjercicio14.Moldes
 {
     internal class Display
     {
@@ -14,5 +14,6 @@ namespace Cartas_Ejercicio14.Moldes
             Console.ReadKey();
             Console.Clear();
         }
+
     }
 }
